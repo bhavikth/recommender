@@ -27,9 +27,11 @@ print([(i,csum_d[i]) for i in reversed(sorted(csum_d))])
 x = 1
 xy = [ len([ rows[i][y] for i in range(1,21) if rows[i][y] != '' and rows[i][x]!= '']) 
        for  y in range(1,21) ]
+cx = len([1 for i in range(1,21) if rows[i][x] != ''])
+xy_d=[ (movies_dict[i][0],round(100*xy[i]/cx,2)) for i in range(0,20)]
+print(list(sorted(xy_d,key=lambda x:x[1],reverse=True)))
 
-xy_d={round(100*xy[i]/cnt[i],2):movies_dict[i][0] for i in range(0,20)}
-print([(i,xy_d[i]) for i in reversed(sorted(xy_d))])
+
 
 _xy = [ len([ rows[i][y] for i in range(1,21) if rows[i][y] != '' and rows[i][x]== '']) 
        for  y in range(1,21) ]
