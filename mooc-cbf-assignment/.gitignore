@@ -1,1 +1,6 @@
 /target
+/.settings
+/.classpath
+/.hg_archival.txt
+/.hgignore
+/.project
