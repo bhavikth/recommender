@@ -34,20 +34,25 @@ for x in x_task:
     xy = { y:len([ 1 for u in users if (u,y) in ratings and (u,x) in ratings]) for y in movies}
     _xy = { y:len([ 1 for u in users if (u,y) in ratings and (u,x) not in ratings]) for y in movies}
     
-    dict1 = { y:((xy[y] if xy[y]!=0 else 1)/(xx if xx!=0 else 1)) for y in movies }
-    dict2 = { y:(((xy[y] if xy[y]!=0 else 1)/(xx if xx !=0 else 1))/((_xy[y]if _xy[y]!=0 else 1)/(_xx if _xx!=0 else 1))) for y in movies }
+    dict1 = [ (y, ((xy[y] if xy[y]!=0 else 1)/(xx if xx!=0 else 1)) ) for y in movies ]
+    dict2 = [ (y, (((xy[y] if xy[y]!=0 else 1)/(xx if xx !=0 else 1))/((_xy[y]if _xy[y]!=0 else 1)/(_xx if _xx!=0 else 1))) ) for y in movies ]
     
-    r_dict1 = {dict1[k]:k for k in  dict1.keys()}
-    r_dict2 = {dict2[k]:k for k in  dict2.keys()}
+#   r_dict1 = [ (dict1[k],k) for k in  dict1.keys()]
+#   r_dict2 = [ (dict2[k],k) for k in  dict2.keys()]
+     
+#   s_dict1 = [(r_dict1[k],round(k,2)) for k in reversed(sorted(r_dict1.keys()))]
+#   s_dict2 = [(r_dict2[k],round(k,2)) for k in reversed(sorted(r_dict2.keys()))]
     
-    s_dict1 = [(r_dict1[k],round(k,2)) for k in reversed(sorted(r_dict1.keys()))]
-    s_dict2 = [(r_dict2[k],round(k,2)) for k in reversed(sorted(r_dict2.keys()))]
+    s_dict1 = list(sorted(dict1,key=lambda x:x[1],reverse=True))
+    s_dict2 = list(sorted(dict2,key=lambda x:x[1],reverse=True))
     
     r1.append(x)
     r2.append(x)
     for i in range(1,6):
-        r1+= s_dict1[i];
-        r2+=s_dict2[i];
+        r1.append(s_dict1[i][0])
+        r1.append(round(s_dict1[i][1],2))
+        r2.append(s_dict2[i][0])
+        r2.append(round(s_dict2[i][1],2))
         
     print(r1)
     print(r2)
