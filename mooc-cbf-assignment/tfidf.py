@@ -7,7 +7,7 @@ user_file=open('data/users.csv')
 
 
 tags_movies=dict()
-movies_tag=dict()
+movies_tags=dict()
 
 def get_rows(file):
     for row in file:
@@ -20,15 +20,15 @@ def get_rows(file):
 
 for row in get_rows(tags_file):
     r=row.split(',')
-    tag = r[1]
+    tag = r[1].upper()
     movieId = int(r[0])
-    if movieId in movies_tag:
-        if tag in movies_tag[movieId]:
-            movies_tag[movieId][tag]+=1
+    if movieId in movies_tags:
+        if tag in movies_tags[movieId]:
+            movies_tags[movieId][tag]+=1
         else:
-            movies_tag[movieId][tag] = 1
+            movies_tags[movieId][tag] = 1
     else:
-        movies_tag[movieId] = {tag:1}
+        movies_tags[movieId] = {tag:1}
         
     if tag in tags_movies:
         if movieId in tags_movies[tag]:
@@ -38,8 +38,11 @@ for row in get_rows(tags_file):
     else:
         tags_movies[tag] = {movieId:1}
 
-print(tags_movies.keys())
 
+tag = 'DISNEY'
+tfidf_tag = {tag:{movie: tags_movies[tag][movie] * log2(sum(tags_movies[tag].values()) / (tags_movies[tag][movie])) for movie in tags_movies[tag]} for tag in tags_movies }
+
+tfidf_movie = {movie:{tag: tags_movies[tag][movie] * log2(sum(tags_movies[tag].values()) / (tags_movies[tag][movie])) for tag in movies_tags[movie]} for movie in movies_tags }
 user_ratings=dict()
 movie_rating = dict()
 
